@@ -20,19 +20,18 @@ These are not Fizzy-specific implementation details. We deliberately skipped bus
 
 ## Table of Contents
 
-### Philosophy & Architecture
-- [Development Philosophy](development-philosophy.md) - Ship/Validate/Refine, vanilla Rails, DHH's review patterns
-- [What They Avoid](what-they-avoid.md) - Gems and patterns 37signals deliberately doesn't use
-- [Routing](routing.md) - Everything is CRUD, resource-based patterns
-- [Jason Fried's Patterns](jason-fried-patterns.md) - Product-oriented development, perceived performance
-- [Jorge Manrubia's Patterns](jorge-manrubia-patterns.md) - Code review style, architecture decisions
+### Core Rails
+- [Routing](routing.md) - Everything is CRUD, resource-based patterns, resolve helpers
+- [Controllers](controllers.md) - Thin controllers, rich models, composable concerns catalog
+- [Models](models.md) - Concerns, state as records, Current context, PORO patterns
+- [Views](views.md) - Turbo Streams, partials, fragment caching, view helpers
 
 ### Frontend
-- [Hotwire Patterns](hotwire-patterns.md) - Turbo Frames/Streams, morphing, Stimulus, drag & drop
-- [CSS Architecture](css-architecture.md) - Native CSS, cascade layers, OKLCH colors
+- [Stimulus](stimulus.md) - Reusable controller catalog with copy-paste code
+- [CSS](css.md) - Native CSS, cascade layers, OKLCH colors, modern features
+- [Hotwire Patterns](hotwire-patterns.md) - Turbo Frames/Streams, morphing, drag & drop
 - [Accessibility](accessibility.md) - ARIA patterns, keyboard navigation, screen readers
 - [Mobile](mobile.md) - Responsive CSS, safe area insets, touch optimization
-- [Filtering](filtering.md) - Filter objects, URL-based state, Stimulus controllers
 
 ### Backend
 - [Authentication](authentication.md) - Passwordless magic links without Devise
@@ -47,17 +46,37 @@ These are not Fizzy-specific implementation details. We deliberately skipped bus
 - [Notifications](notifications.md) - Time window bundling, user preferences, real-time
 - [Webhooks](webhooks.md) - SSRF protection, delinquency tracking, state machines
 - [Workflows](workflows.md) - Event-driven state, undoable commands
-- [Watching Patterns](watching-patterns.md) - Subscription patterns, toggle UI, cache invalidation
+- [Watching Patterns](watching-patterns.md) - Subscription patterns, toggle UI
 - [Email](email.md) - Multi-tenant mailers, timezone handling
-- [AI/LLM Integration](ai-llm.md) - Command pattern, cost tracking, LLM tool patterns
+- [Filtering](filtering.md) - Filter objects, URL-based state
+- [AI/LLM Integration](ai-llm.md) - Command pattern, cost tracking, tool patterns
 
 ### Infrastructure & Testing
 - [Security Checklist](security-checklist.md) - XSS, CSRF, SSRF, rate limiting, authorization
 - [Testing](testing.md) - Minitest, fixtures over factories, integration tests
-- [Observability](observability.md) - Structured logging, Yabeda metrics
 - [Configuration](configuration.md) - Environment config, Kamal deployment
+- [Observability](observability.md) - Structured logging, Yabeda metrics
 - [Active Storage](active-storage.md) - Attachment patterns, variants
 - [Action Text](action-text.md) - Sanitizer config, remote images
+
+### Philosophy & Process
+- [Development Philosophy](development-philosophy.md) - Ship/Validate/Refine, vanilla Rails, DHH's review patterns
+- [What They Avoid](what-they-avoid.md) - Gems and patterns 37signals deliberately doesn't use
+- [Jason Fried's Patterns](jason-fried-patterns.md) - Product-oriented development, perceived performance
+- [Jorge Manrubia's Patterns](jorge-manrubia-patterns.md) - Code review style, architecture decisions
+
+---
+
+## Quick Start: The 37signals Way
+
+1. **Rich domain models** over service objects
+2. **CRUD controllers** over custom actions
+3. **Concerns** for horizontal code sharing
+4. **Records as state** over boolean columns
+5. **Database-backed everything** (no Redis)
+6. **Build it yourself** before reaching for gems
+7. **Ship to learn** - prototype quality is valid
+8. **Vanilla Rails is plenty** - maximize what Rails gives you
 
 ---
 
