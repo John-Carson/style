@@ -108,4 +108,4 @@ This is an unofficial guide created by analyzing publicly discussed code pattern
 
 ## License
 
-MIT
+Code examples extracted from Fizzy are licensed under the [O'Saasy License](https://osaasy.dev). All analysis, commentary, and original content in this guide is licensed under MIT.
