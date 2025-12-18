@@ -90,7 +90,17 @@ These are not Fizzy-specific implementation details. We deliberately skipped bus
 
 - **[37signals](https://37signals.com)** for open-sourcing their codebase and giving the community a window into how they build software
 - **[Mateusz Zolkos](https://www.zolkos.com/2025/12/10/fizzys-pull-requests)** for his work identifying and cataloging the most educational PRs
-- This guide was created through iterative deep-dive research sessions with [Claude Code](https://claude.com/claude-code)
+- **[Claude Code](https://claude.com/claude-code)** for creating this guide through iterative deep-dive research sessions
+
+## Further Reading
+
+- [Fizzy Source Code](https://github.com/basecamp/fizzy) - The official Fizzy repository with full git history
+- [Campfire Source Code](https://github.com/basecamp/once-campfire) - 37signals' open-source chat application, another reference implementation
+- [Fizzy's Pull Requests: Who Built What and How](https://www.zolkos.com/2025/12/10/fizzys-pull-requests) - Curated PR sequences organized by topic
+- [Fizzy JS Patterns](https://www.driftingruby.com/episodes/fizzy-js-patterns) - Drifting Ruby episode analyzing JavaScript patterns in Fizzy
+- [Read The Friendly Source Code](https://beautifulruby.com/code/fizzy) - Beautiful Ruby code review covering architecture and security observations
+- [Writebook by ONCE](https://igor.works/blog/writebook-by-once) - Code walkthrough of another 37signals open-source project
+- [On Writing Software Well](https://www.youtube.com/playlist?list=PL9wALaIpe0Py6E_oHCgTrD6FvFETwJLlx) - DHH's screencast series on software development practices
 
 ## Disclaimer
 
