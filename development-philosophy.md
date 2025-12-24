@@ -53,19 +53,11 @@ Design caching early - it reveals architectural issues:
 
 ---
 
-# DHH's Code Review Patterns
-
-> 📝 **A note on attribution**: We created these personal pattern files to give credit to individual developers whose review style we found instructive. This content was compiled with AI assistance by analyzing PR comments, so take it with a grain of salt—some patterns may be misattributed or misinterpreted.
-
-> Focus: Simplicity, directness, Rails conventions, and fighting abstraction
-
----
-
 ## Core Philosophy: Earn Your Abstractions
 
 ### Question Every Layer of Indirection
 
-**Pattern**: DHH consistently challenges abstractions that don't justify their existence.
+**Pattern**: Consistently challenge abstractions that don't justify their existence.
 
 > "I find these explicit classes for the notifier rather anemic. And there's not as much future potential for a million more (unlike Basecamp). Think we're better off inlining them."
 
@@ -298,14 +290,6 @@ end
 
 ---
 
-## Testing Philosophy
-
-### Avoid Test-Induced Design Damage
-
-> "I think that would then qualify as [test-induced design damage](https://dhh.dk/2014/test-induced-design-damage.html) 😄. Better replace that with a mock or even better just a fixture session you can use. We should never let our desire for ease of testing bleed into the application itself."
-
----
-
 ## Migrations
 
 ### Migrations Can Reference Models
@@ -439,19 +423,9 @@ json.steps @card.steps, partial: "steps/step", as: :step
 
 ---
 
-# Jason Zimdars' Design & Product Patterns
-
-> 📝 **A note on attribution**: We created these personal pattern files to give credit to individual developers whose review style we found instructive. This content was compiled with AI assistance by analyzing PR comments, so take it with a grain of salt—some patterns may be misattributed or misinterpreted.
-
-> Focus: UX-first development, prototype shipping, visual coherence, CSS patterns
-
----
-
 ## UX-First Decision Making
 
 ### Perceived Performance > Technical Performance
-
-Jason challenged the Turbo Streams approach not because it was technically wrong, but because of how it *felt*:
 
 > "I'd imagined this as a single form in the sense that you'd make all of your selections and then 'apply' the filter rather than it updating the view after every new choice. Some shopping websites do that latter and it always feels/is slow."
 
@@ -464,8 +438,6 @@ Jason challenged the Turbo Streams approach not because it was technically wrong
 When reviewing implementations, ask: "Does this feel instant to the user?" Not just "Is the server response under 200ms?"
 
 ### Simplify by Removing, Not Just Hiding
-
-When the filter UI became complex with live-updating chips, Jason proposed:
 
 > "One thing we could try if it were to simplify things is to not show the chips while the form is open. Then there wouldn't be anything to update live on the page."
 
@@ -487,10 +459,6 @@ When the filter UI became complex with live-updating chips, Jason proposed:
 
 ### Explicitly Label Implementation Quality
 
-Jason's guidance to the reviewer:
-
-> "This is an unproven feature built with prototype quality code so I would suggest factoring your appetite accordingly."
-
 **The Pattern**:
 - Communicate implementation quality expectations upfront
 - "Prototype quality" is a valid shipping standard when validating
@@ -500,8 +468,6 @@ Jason's guidance to the reviewer:
 > "The goal is to get this onto our production instance as soon as possible so we can vet the design with real work."
 
 ### Ship to Validate, But Document Known Issues
-
-Jason merged with explicit areas for improvement:
 
 1. Performance issues: "un-holy things with Bubble collections"
 2. Missing features: "no pagination in the new view"
@@ -649,8 +615,6 @@ Incremental visual changes create inconsistent UX. Better to:
 
 ### Give Product Context, Not Implementation Mandates
 
-Jason didn't say "use a single form" or "remove the Turbo Streams". He said:
-
 > "I'd imagined this as a single form in the sense that you'd make all of your selections and then 'apply'..."
 
 **The Pattern**:
@@ -768,31 +732,6 @@ When shipping for validation, enumerate what to watch:
 
 ---
 
-# Jorge Manrubia's Architecture & Rails Patterns
-
-> 📝 **A note on attribution**: We created these personal pattern files to give credit to individual developers whose review style we found instructive. This content was compiled with AI assistance by analyzing PR comments, so take it with a grain of salt—some patterns may be misattributed or misinterpreted.
-
-> Focus: Architecture, Rails patterns, testing, and performance
-
----
-
-## Code Review Philosophy
-
-### Question Everything, Suggest Gently
-
-**Pattern**: Jorge doesn't mandate changes - he questions and offers alternatives.
-
-```
-"For your consideration, I'd consider introducing a proper object..."
-"I think you could remove these..."
-"What do you think of naming this..."
-```
-
-**Why it matters**: Creates collaborative atmosphere, teaches decision-making, not just solutions.
-
----
-
-
 ### Public vs Private Surface Area
 
 **Pattern**: Aggressively minimize public methods.
@@ -834,7 +773,7 @@ end
 **Examples**:
 
 ```ruby
-# Jorge's suggestion: treat quota as something you "spend"
+# Treat quota as something you "spend"
 quota.spend(cost)           # not increment_usage(cost)
 quota.ensure_not_depleted   # not ensure_under_limit
 quota.depleted?             # not over_limit?
@@ -893,7 +832,6 @@ end
 
 **Discussion** about `Money` type:
 
-Jorge initially suggested custom Active Model type:
 ```ruby
 # Could be done with custom type
 class MoneyType < ActiveModel::Type::Value
@@ -960,9 +898,6 @@ module Ai::Quota::Resettable
     def due_for_reset?
 end
 
-# Jorge's feedback:
-# "We normally don't extract concerns that only contains private methods."
-
 # Final - inlined into main class
 class Ai::Quota
   def spend(cost)
@@ -987,8 +922,6 @@ end
 ### Wrapping Methods: Hide or Reveal?
 
 **Pattern**: Consider whether wrapping methods hide useful details or just add noise.
-
-**Jorge changed his mind mid-review**:
 
 Initial thought:
 ```ruby
@@ -1047,7 +980,7 @@ def as_params
 end
 ```
 
-**Jorge's note**: "This method is invoked many times during a page rendering and it triggers many queries (which will be cached, but we can save that with memoization)"
+**Note**: "This method is invoked many times during a page rendering and it triggers many queries (which will be cached, but we can save that with memoization)"
 
 **Why it matters**: Even query cache has overhead - better to call once.
 
@@ -1079,7 +1012,6 @@ end
 <% end %>
 ```
 
-**Jorge's comment**:
 > "I cached the filter menu since it implies rendering a bunch of templates and triggering many queries. The cache won't be shared across users, but it will be reused essentially in every rendered screen on a per-user basis."
 
 **Caching layers**:
@@ -1092,40 +1024,6 @@ end
 - Identify what varies (user, data, time)
 - Cache at the right granularity
 - Reuse fragments across requests
-
----
-
-
-### Guard Against Token Limits
-
-**Pattern**: When integrating with LLMs, count tokens before sending.
-
-**Donal's feedback on embeddings**:
-```ruby
-# Need to truncate to token limit
-module Searchable
-  def embedding_input
-    truncated_to_token_limit(text_for_embedding)
-  end
-
-  private
-    def truncated_to_token_limit(text)
-      tokenizer = Tiktoken.encoding_for_model("text-embedding-3-small")
-      tokens = tokenizer.encode(text)
-
-      # Subtract buffer for safety
-      max_tokens = 8096 - 20
-
-      if tokens.length > max_tokens
-        tokenizer.decode(tokens.first(max_tokens))
-      else
-        text
-      end
-    end
-end
-```
-
-**Why it matters**: API will reject over-limit requests; better to truncate gracefully.
 
 ---
 
@@ -1171,7 +1069,6 @@ end
 
 **Pattern**: It's fine to commit WIP tests, clean up before merge.
 
-**Jorge's comment**:
 ```ruby
 # test/models/command/chat_query_test.rb
 # > "This is a test I created for development purposes, I'll nix and create a proper suite"
@@ -1273,9 +1170,6 @@ class Ai::Quota
 end
 ```
 
-**Jorge's feedback on cron approach**:
-> "As I was working on this I noticed that we can get by without the Cron job by checking if the quota has to be reset when its incremented. This simplifies things a bit."
-
 **Why it matters**:
 - One less moving part
 - Resets happen exactly when needed
@@ -1351,8 +1245,6 @@ async #failPendingMessage(clientMessageId, response) {
 
 ### Extract Only When Justified
 
-**Pattern**: Jorge models his thinking process out loud.
-
 **Progression**:
 1. "The limit param is a smell that something is missing"
 2. "Thinking about how to clarify this, my mind goes to having a new record"
@@ -1364,8 +1256,6 @@ async #failPendingMessage(clientMessageId, response) {
 
 
 ### Reconsider Based on New Information
-
-**Pattern**: Jorge often changes recommendations as discussion evolves.
 
 **Money type decision**:
 - First: "Could we clarify this with an object?"
